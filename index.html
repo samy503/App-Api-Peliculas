@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buscador de Películas</title>
+
+  <!-- Tipografías: Bebas Neue para títulos, Inter para el texto -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body>
+  <header class="cabecera">
+    <p class="etiqueta">Cartelera</p>
+    <h1>Buscador de Películas</h1>
+    <p class="subtitulo">Encuentra cualquier película o mira lo más visto del momento.</p>
+
+    <!-- Paso 1: campo de texto y botones -->
+    <div class="acciones">
+      <form class="buscador" id="formBuscar">
+        <input type="search" id="inputBuscar" placeholder="Escribe el nombre de una película..."
+          aria-label="Nombre de la película" autocomplete="off" />
+        <button type="submit" id="btnBuscar">Buscar</button>
+      </form>
+      <button type="button" id="btnPopulares" class="secundario">Ver populares</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Título de la sección y cantidad de resultados -->
+    <div class="barra">
+      <h2 id="tituloSeccion"></h2>
+      <span id="contador"></span>
+    </div>
+
+    <!-- Espacio para mensajes (cargando, errores, no encontrada) -->
+    <p id="mensaje" role="status"></p>
+
+    <!-- Espacio vacío donde se mostrarán los resultados -->
+    <div id="resultados"></div>
+  </main>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>

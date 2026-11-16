@@ -1,0 +1,391 @@
+/* Estilos de la vista detallada. Usa los colores definidos en style.css (:root) */
+
+/* Mientras la ventana está abierta, la página de atrás no se desplaza */
+html {
+    scrollbar-gutter: stable;
+}
+
+html.sin-scroll {
+    overflow: hidden;
+}
+
+/* ---------- Fondo oscuro y caja ---------- */
+.detalles {
+    width: 100vw;
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    padding: 16px;
+    border: none;
+    background: rgba(5, 6, 9, 0.78);
+    backdrop-filter: blur(6px);
+    color: var(--texto);
+}
+
+.detalles::backdrop {
+    background: transparent;
+}
+
+.detalles[open] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fondo-entra 0.25s both;
+}
+
+.detalles-caja {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: min(1040px, 100%);
+    max-height: 100%;
+    overflow: hidden;
+    border: 1px solid var(--borde);
+    border-radius: 18px;
+    background: var(--fondo);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+    animation: caja-entra 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.detalles-contenido {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+/* Animación de salida */
+.detalles.cerrando {
+    animation: fondo-sale 0.2s both;
+}
+
+.detalles.cerrando .detalles-caja {
+    animation: caja-sale 0.2s both;
+}
+
+/* ---------- Botón de cerrar ---------- */
+.detalles-cerrar {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 3;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid var(--borde);
+    border-radius: 50%;
+    background: rgba(11, 13, 18, 0.75);
+    color: var(--texto);
+    font-size: 16px;
+    line-height: 1;
+}
+
+.detalles-cerrar:hover {
+    background: var(--acento);
+    border-color: var(--acento);
+    color: #1a1300;
+}
+
+/* ---------- Imagen panorámica ---------- */
+.detalles-fondo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    object-position: center 20%;
+    /* la imagen se desvanece hacia el color de fondo */
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.75), transparent);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.75), transparent);
+}
+
+.detalles-fondo.sin-fondo {
+    background: radial-gradient(ellipse at 50% 0, rgba(255, 182, 39, 0.35), transparent 70%);
+}
+
+/* ---------- Póster y títulos ---------- */
+.detalles-cabecera {
+    position: relative;
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    align-items: end;
+    gap: 32px;
+    padding: 170px 40px 0;
+}
+
+.detalles-poster {
+    display: block;
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 20px 44px rgba(0, 0, 0, 0.65);
+}
+
+.detalles-poster.sin-poster {
+    display: flex;
+    height: auto;
+    font-size: 1.3rem;
+}
+
+.detalles-titulos h2 {
+    margin: 0;
+    font-family: var(--fuente-titulo);
+    font-weight: 400;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    line-height: 0.98;
+    letter-spacing: 0.02em;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+}
+
+.original {
+    margin: 10px 0 0;
+    color: var(--tenue);
+    font-size: 14px;
+}
+
+.original span {
+    color: var(--texto);
+    font-style: italic;
+}
+
+.resumen,
+.generos,
+.reparto {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.resumen {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 0;
+    margin-top: 18px;
+    font-size: 15px;
+}
+
+/* punto separador entre año, calificación y duración */
+.resumen li+li::before {
+    content: "•";
+    margin: 0 12px;
+    color: var(--tenue);
+}
+
+.estrella {
+    color: var(--acento);
+}
+
+.generos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.generos li {
+    padding: 5px 12px;
+    border: 1px solid var(--borde);
+    border-radius: 999px;
+    background: rgba(22, 26, 35, 0.8);
+    font-size: 13px;
+}
+
+.vacio,
+.generos li.vacio {
+    color: var(--tenue);
+    font-size: 14px;
+}
+
+/* ---------- Sinopsis, reparto y ficha ---------- */
+.detalles-cuerpo {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 48px;
+    padding: 36px 40px 44px;
+}
+
+.detalles-cuerpo h3 {
+    margin: 0 0 10px;
+    color: var(--acento);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.sinopsis-completa {
+    margin: 0 0 32px;
+    max-width: 65ch;
+    font-size: 16px;
+    line-height: 1.65;
+}
+
+.detalles-aviso {
+    margin: 0 0 24px;
+    padding: 12px 16px;
+    border-left: 3px solid var(--acento);
+    border-radius: 8px;
+    background: var(--superficie);
+    font-size: 14px;
+}
+
+.reparto {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 14px 18px;
+}
+
+.reparto li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.reparto img,
+.reparto .inicial {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--superficie);
+}
+
+.reparto .inicial {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--tenue);
+    font-weight: 600;
+}
+
+.reparto strong,
+.reparto li span:not(.inicial) {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.reparto strong {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.reparto li div {
+    min-width: 0;
+}
+
+.reparto li div span {
+    color: var(--tenue);
+    font-size: 13px;
+}
+
+.ficha {
+    align-self: start;
+    margin: 0;
+    padding: 6px 20px;
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    background: var(--superficie);
+}
+
+.dato {
+    padding: 14px 0;
+}
+
+.dato+.dato {
+    border-top: 1px solid var(--borde);
+}
+
+.dato dt {
+    margin-bottom: 4px;
+    color: var(--tenue);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.dato dd {
+    margin: 0;
+    font-size: 15px;
+}
+
+/* ---------- Animaciones ---------- */
+@keyframes fondo-entra {
+    from {
+        opacity: 0;
+    }
+}
+
+@keyframes fondo-sale {
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes caja-entra {
+    from {
+        opacity: 0;
+        transform: translateY(28px) scale(0.97);
+    }
+}
+
+@keyframes caja-sale {
+    to {
+        opacity: 0;
+        transform: translateY(16px) scale(0.98);
+    }
+}
+
+/* ---------- Tablets ---------- */
+@media (max-width: 860px) {
+    .detalles-cabecera {
+        grid-template-columns: 180px 1fr;
+        gap: 24px;
+        padding: 150px 28px 0;
+    }
+
+    .detalles-cuerpo {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding: 28px 28px 36px;
+    }
+}
+
+/* ---------- Teléfonos ---------- */
+@media (max-width: 560px) {
+    .detalles {
+        padding: 8px;
+    }
+
+    .detalles-fondo {
+        height: 260px;
+    }
+
+    .detalles-cabecera {
+        grid-template-columns: 110px 1fr;
+        gap: 16px;
+        padding: 110px 18px 0;
+    }
+
+    .detalles-cuerpo {
+        padding: 24px 18px 30px;
+    }
+
+    .resumen {
+        font-size: 14px;
+    }
+
+    .resumen li+li::before {
+        margin: 0 8px;
+    }
+}
